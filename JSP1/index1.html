@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dictionary-App</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      /* background-color: dodgerblue; */
+      /* background-image: url("https://e0.pxfuel.com/wallpapers/51/969/desktop-wallpaper-vocabulary-vocabulary-powerpoint-background-vocabulary-and-vocabulary-dictionary.jpg"); */
+      background: rgb(2,0,36);
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(34,18,124,1) 35%, rgba(0,212,255,1) 100%);
+/* background-image:url("C:\Users\user\Downloads\pngwing.com.png"); */
+z-index: 1;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    .card {
+      width: 500px;
+      background-color: black;
+      padding: 3rem 3rem;
+      border-radius: 5%;
+      /* box-shadow: 2px 6px 5px white; */
+    }
+    .property {
+      color: white;
+      display: flex;
+      /* flex-direction: column; */
+      column-gap: 10px;
+      align-items: flex-start;
+      margin: 20px;
+    }
+    .search-form {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* background-color: rgb(152, 247, 168); */
+      /* background-image: url("https://e0.pxfuel.com/wallpapers/51/969/desktop-wallpaper-vocabulary-vocabulary-powerpoint-background-vocabulary-and-vocabulary-dictionary.jpg"); */
+      background: rgb(2,0,36);
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(34,18,124,1) 35%, rgba(0,212,255,1) 100%);
+
+      flex-wrap: wrap;
+      height: 10vh;
+      width:70vh ;
+      margin-bottom: 40px;
+      position: relative;
+      bottom: 50px;
+      /* justify-content: center; */
+      border-radius: 10px;
+      
+      
+    }
+    .search-form input,
+    .search-form button {
+      flex-basis: 70%;
+      font-size: 15px;
+      padding:2px 5px ;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      color: white;
+      /* margin-left: 40px; */
+    }
+    .search-form button {
+      flex-basis:20%;
+      cursor: pointer;
+      border-left: 1px solid slategray;
+      background-color: black;
+      padding: 7px;
+      border-radius: 5px;
+    }
+    .search-form button:hover {
+      /* background-color: rgb(52, 73, 56); */
+      color: white;
+      /* color: black; */
+      border-radius: 5px;
+      padding: 5px;
+      /* box-shadow: 0 0 10px white inset 0 0 10px rgba(0, 0, 0, 0.8); */
+    }
+  </style>
+  <body>
+    <div class="container">
+      <img style="position: relative;top:-150px;left:-400px;" src="C:\Users\user\Downloads\pngwing.com.png" height="150px" width="300px">
+      <div class="search-form">
+        <input id="input" type="text" placeholder="Type any word" />
+        <button id="button">Search</button>
+      </div>
+
+      <div class="dictionary-App">
+        <!-- <div class="card">
+          <div class="property">
+            <span>Word:</span>
+            <span>Name of the word</span>
+          </div>
+          <div class="property">
+            <span>Phonotics:</span>
+            <span>Phonotics will go here</span>
+          </div>
+          <div class="property">
+            <span>Audio:</span>
+          </div>
+          <div class="property">
+            <span>Definition:</span>
+            <span>definiton will go here</span>
+          </div>
+          <div class="property">
+            <span>Example:</span>
+          </div>
+          <div class="property">
+            <span>Parts of speech:</span>
+          </div>
+        </div> -->
+      </div>
+    </div>
+
+
+    <script>
+let input=document.getElementById("input")
+let btn=document.getElementById("button")
+let dictionary=document.querySelector(".dictionary-App")
+
+    async function dictionaryFn(word){
+        let res=await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+        .then(res => res.json())
+        // console.log(res)
+        return res[0];
+    };
+    btn.addEventListener('click',fetchdata)
+    
+
+    async function fetchdata(){
+        let data=await dictionaryFn(input.value)
+        console.log(data);
+        if(data == undefined) {
+          alert("The word does not exist")
+        }
+    
+        let partOfSpeechArray=[]
+    for(let i=0;i<data.meanings.length-1;i++){
+    
+          partOfSpeechArray.push(data.meanings[i].partOfSpeech)
+      }
+   
+        dictionary.innerHTML=`
+        <div class="card">
+          <div class="property">
+            <span>Word:</span>
+            <span>${data.word}</span>
+          </div>
+          <div class="property">
+            <span>Phonotics:</span>
+            <span>${data.phonetic}</span>
+          </div>
+          <div class="property">
+            <sapn>Audio:</span>
+            <span><audio controls src="${data.phonetics[0].audio}"></span>
+          </div>
+          <div class="property">
+            <span>Definition:</span>
+            <span>${data.meanings[0].definitions[0].definition}</span>
+          </div>
+          <div class="property">
+            <span>Example:</span>
+            <span>${data.meanings[1].definitions[0].example}</span>
+          </div>
+          <div class="property">
+            <span>Parts of speech:</span>
+            <span>${partOfSpeechArray.map(e => e).join(",")}</span>
+          </div>
+        </div>`
+       
+    }
+   
+   
+    
+  
+  
+  
+
+
+
+
+    </script>
+    <!-- <script src="index.js"></script> -->
+
+  </body>
+</html>
