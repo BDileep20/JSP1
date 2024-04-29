@@ -87,6 +87,51 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(34,18,124,1) 35%, rgb
       padding: 5px;
       /* box-shadow: 0 0 10px white inset 0 0 10px rgba(0, 0, 0, 0.8); */
     }
+        /* Default styles */
+
+/* Add responsive styles */
+@media screen and (max-width: 1440px) {
+  body {
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 90%;
+  }
+
+  .card {
+    width: 100%;
+  }
+
+  .search-form {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .search-form input,
+  .search-form button {
+    flex-basis: 50%;
+  }
+
+  .search-form button {
+    flex-basis: 40%;
+  }
+
+  .property {
+    margin: 10px;
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  .container {
+    padding: 10px;
+  }
+
+  .search-form input,
+  .search-form button {
+    font-size: 12px;
+  }
+}
   </style>
   <body>
     <div class="container">
@@ -142,7 +187,7 @@ let dictionary=document.querySelector(".dictionary-App")
         let data=await dictionaryFn(input.value)
         console.log(data);
         if(data == undefined) {
-          alert("The word does not exist")
+          alert("This word does not exist")
         }
     
         let partOfSpeechArray=[]
